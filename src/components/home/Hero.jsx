@@ -13,24 +13,24 @@ import { useTheme } from "../ThemeToggle";
 const ImprovedCallButton = ({ onClick, isDark }) => {
   return (
     <motion.button
-      className="group relative my-3 sm:my-5 w-full max-w-xs"
+      className="group relative mx-auto my-3 sm:my-5"
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
     >
-      {/* Improved animated gradient border */}
-      <div className="absolute inset-0 rounded-xl p-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-70 blur-[3px] group-hover:opacity-100 group-hover:blur-sm transition-all duration-300"></div>
+      {/* Shiny animated gradient border */}
+      <div className="absolute inset-0 rounded-xl p-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-border-shine group-hover:opacity-100 transition-opacity opacity-60 blur-sm"></div>
 
       {/* Main button content */}
       <div
-        className={`relative z-10 flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl overflow-hidden transition-all duration-300 ${
+        className={`relative z-10 flex items-center gap-1.5 sm:gap-2 px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl overflow-hidden transition-all duration-300 ${
           isDark
-            ? "bg-black/90 shadow-[5px_5px_15px_#0a0a0a,-5px_-5px_15px_#1a1a1a]"
-            : "bg-white/90 shadow-[5px_5px_15px_#d1d1d1,-5px_-5px_15px_#fff]"
+            ? "bg-black shadow-[5px_5px_10px_#0a0a0a,-5px_-5px_10px_#1a1a1a]"
+            : "bg-gray-100 shadow-[5px_5px_10px_#d1d1d1,-5px_-5px_10px_#fff]"
         }`}
       >
         <Calendar
-          className={`w-5 h-5 sm:w-6 sm:h-6 shrink-0 ${
+          className={`w-5 h-5 sm:w-5 sm:h-5 shrink-0 ${
             isDark ? "text-indigo-400" : "text-indigo-600"
           }`}
         />
@@ -47,8 +47,8 @@ const ImprovedCallButton = ({ onClick, isDark }) => {
       <div
         className={`absolute inset-0 rounded-xl transition-opacity duration-300 opacity-0 group-active:opacity-100 ${
           isDark
-            ? "shadow-[inset_3px_3px_7px_#000,inset_-3px_-3px_7px_#1a1a1a]"
-            : "shadow-[inset_3px_3px_7px_#d1d1d1,inset_-3px_-3px_7px_#fff]"
+            ? "shadow-[inset_2px_2px_5px_#000,inset_-2px_-2px_5px_#1a1a1a]"
+            : "shadow-[inset_2px_2px_5px_#d1d1d1,inset_-2px_-2px_5px_#fff]"
         }`}
       ></div>
     </motion.button>
@@ -82,7 +82,7 @@ export const Hero = () => {
 
   const handleScheduleCall = () => {
     window.open("https://calendly.com/dixitabhinav2004/30min", "_blank");
-  };
+  };  
 
   const gridVariants = {
     hidden: { opacity: 0 },
@@ -99,6 +99,28 @@ export const Hero = () => {
     visible: {
       scale: 1,
       transition: { type: "spring", stiffness: 200, damping: 10 },
+    },
+  };
+
+  const mobileNameVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8 },
+    },
+  };
+
+  const skillItemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 200,
+        damping: 15,
+      },
     },
   };
 
@@ -122,62 +144,29 @@ export const Hero = () => {
     },
   };
 
-  const leftContentVariants = {
-    hidden: { opacity: 0, x: -50 },
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
     visible: {
       opacity: 1,
-      x: 0,
+      scale: 1,
       transition: {
         duration: 0.8,
-        ease: "easeOut",
-        when: "beforeChildren",
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const childVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const nameLetterVariants = {
-    hidden: { y: -50, opacity: 0 },
-    visible: (i) => ({
-      y: 0,
-      opacity: 1,
-      transition: {
-        delay: i * 0.08,
-        duration: 0.5,
-        type: "spring",
-        stiffness: 200,
-        damping: 15,
-      },
-    }),
-    hover: {
-      y: -8,
-      scale: 1.1,
-      transition: { duration: 0.2 },
-    },
+        ease: "easeOut"
+      }
+    }
   };
 
   return (
     <div
-      className={`relative min-h-screen flex flex-col md:flex-row ${
+      className={`relative min-h-screen pt-16 ${
         isDark ? "bg-black" : "bg-white"
       } overflow-hidden`}
     >
       <ResumeDownloadButton />
-      {/* Background grid for left side only */}
+      
+      {/* Background grid animation */}
       <motion.div
-        className="absolute inset-0 md:right-1/2 grid grid-cols-8 grid-rows-6 gap-4 p-8 z-0"
+        className="absolute inset-0 grid grid-cols-8 grid-rows-6 gap-4 p-8"
         variants={gridVariants}
         initial="hidden"
         animate="visible"
@@ -195,114 +184,94 @@ export const Hero = () => {
         ))}
       </motion.div>
 
-      {/* Left Side Content */}
-      <motion.div
-        className="relative z-10 w-full md:w-1/2 flex flex-col justify-center items-center px-4 sm:px-8 py-20 md:py-0"
-        variants={leftContentVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <div className="max-w-md mx-auto w-full">
-          {/* Terminal Icon */}
-          <motion.div
-            variants={childVariants}
-            className="mb-8 md:mb-10"
-          >
-            <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto relative group">
-              <motion.div
-                className="absolute inset-0 border-4 rounded-[2rem] shadow-xl shadow-indigo-500/50"
-                animate={{
-                  rotate: [0, 360],
-                  scale: [1, 1.15, 1],
-                  borderColor: ["#6366F1", "#4338CA", "#3B82F6", "#4F46E5"],
-                  boxShadow: isDark
-                    ? [
-                        "0 0 15px rgba(99,102,241,0.8), 0 0 30px rgba(168,85,247,0.7)",
-                        "0 0 25px rgba(124,58,237,0.7), 0 0 45px rgba(99,102,241,0.6)",
-                        "0 0 15px rgba(99,102,241,0.8), 0 0 30px rgba(168,85,247,0.7)",
-                      ]
-                    : [
-                        "0 0 15px rgba(147,197,253,0.7), 0 0 30px rgba(253,230,138,0.5)",
-                        "0 0 25px rgba(249,168,212,0.5), 0 0 45px rgba(147,197,253,0.4)",
-                        "0 0 15px rgba(147,197,253,0.7), 0 0 30px rgba(253,230,138,0.5)",
-                      ],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  repeatType: "loop",
-                }}
-              />
-              <Terminal
-                className={`w-full h-full relative z-10 p-4 transition-colors duration-500 ${
-                  isDark
-                    ? "text-indigo-400 group-hover:text-purple-300"
-                    : "text-indigo-600 group-hover:text-purple-500"
-                }`}
-              />
-            </div>
-          </motion.div>
-
-          {/* Name with animated letters */}
-          <motion.div
-            variants={childVariants}
-            className="relative mb-6 md:mb-8"
-          >
-            <div className="flex flex-col items-center">
-              <h1
-                className="text-4xl sm:text-5xl md:text-6xl font-bold text-center mb-2"
+      {/* Main content container */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-[calc(100vh-4rem)] flex flex-col justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+          
+          {/* Left Column - Text Content */}
+          <div className="order-2 md:order-1 flex flex-col items-center md:items-start text-center md:text-left">
+            {/* Name with animated characters */}
+            <motion.div
+              className="mb-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h1 
+                className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight"
                 style={{
                   fontFamily: "'Righteous', cursive",
-                  color: isDark ? "#a5b4fc" : "#6366f1",
-                  textShadow: isDark
-                    ? "3px 3px 0px #312e81"
-                    : "3px 3px 0px #4338ca",
-                  letterSpacing: "0.05em",
                 }}
               >
-                {name.first.split("").map((letter, i) => (
-                  <motion.span
-                    key={i}
-                    className="inline-block"
-                    variants={nameLetterVariants}
-                    custom={i}
-                    whileHover="hover"
-                  >
-                    {letter}
-                  </motion.span>
-                ))}
+                <div className="flex flex-wrap justify-center md:justify-start">
+                  {name.first.split("").map((letter, i) => (
+                    <motion.span
+                      key={i}
+                      className="inline-block"
+                      initial={{ y: -50, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{
+                        delay: i * 0.07,
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 15,
+                      }}
+                      whileHover={{
+                        y: -10,
+                        color: isDark ? "#a5b4fc" : "#6366f1",
+                        scale: 1.1,
+                        transition: { duration: 0.2 },
+                      }}
+                      style={{
+                        color: isDark ? "#a5b4fc" : "#4f46e5",
+                        textShadow: isDark
+                          ? "2px 2px 0px #312e81"
+                          : "2px 2px 0px #4338ca",
+                      }}
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </div>
+                
+                <div className="flex flex-wrap justify-center md:justify-start mt-1">
+                  {name.last.split("").map((letter, i) => (
+                    <motion.span
+                      key={i}
+                      className="inline-block"
+                      initial={{ y: 50, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{
+                        delay: i * 0.07 + 0.3,
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 15,
+                      }}
+                      whileHover={{
+                        y: -10,
+                        color: isDark ? "#818cf8" : "#4f46e5",
+                        scale: 1.1,
+                        transition: { duration: 0.2 },
+                      }}
+                      style={{
+                        color: isDark ? "#6366f1" : "#3730a3",
+                        textShadow: isDark
+                          ? "2px 2px 0px #312e81"
+                          : "2px 2px 0px #4338ca",
+                      }}
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </div>
               </h1>
-
-              <h1
-                className="text-5xl sm:text-6xl md:text-7xl font-bold text-center"
-                style={{
-                  fontFamily: "'Righteous', cursive",
-                  color: isDark ? "#6366f1" : "#4f46e5",
-                  textShadow: isDark
-                    ? "3px 3px 0px #312e81"
-                    : "3px 3px 0px #4338ca",
-                  letterSpacing: "0.05em",
-                }}
-              >
-                {name.last.split("").map((letter, i) => (
-                  <motion.span
-                    key={i}
-                    className="inline-block"
-                    variants={nameLetterVariants}
-                    custom={i + name.first.length}
-                    whileHover="hover"
-                  >
-                    {letter}
-                  </motion.span>
-                ))}
-              </h1>
-
-              <div className="absolute -bottom-3 md:-bottom-4 left-1/2 transform -translate-x-1/2 w-4/5 flex gap-1">
+              
+              {/* Animated underline */}
+              <div className="mt-2 w-4/5 mx-auto md:mx-0 flex gap-1.5">
                 {[...Array(8)].map((_, i) => (
                   <motion.div
                     key={i}
-                    className={`${gradientClass} h-1 flex-1`}
+                    className={`${gradientClass} h-1.5 flex-1 rounded-full`}
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{
@@ -313,123 +282,164 @@ export const Hero = () => {
                   />
                 ))}
               </div>
+            </motion.div>
+            
+            {/* Developer title with typing effect */}
+            <motion.div
+              className="mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.6 }}
+            >
+              <div className={`text-lg sm:text-xl lg:text-2xl font-mono ${
+                isDark ? "text-indigo-300" : "text-indigo-600"
+              }`}>
+                <span>
+                  <motion.span>{typedText}</motion.span>
+                  <motion.span
+                    animate={{ opacity: [0, 1] }}
+                    transition={{ duration: 0.5, repeat: Infinity }}
+                    className="ml-1 inline-block"
+                  >
+                    |
+                  </motion.span>
+                </span>
+              </div>
+            </motion.div>
+            
+            {/* Terminal Icon */}
+            <motion.div
+              className="hidden md:flex mb-6"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+                delay: 1.2,
+              }}
+            >
+              <div className="relative group">
+                <motion.div
+                  className={`absolute inset-0 rounded-full blur-lg opacity-70 ${
+                    isDark ? "bg-indigo-500/50" : "bg-indigo-300/50"
+                  }`}
+                  animate={{
+                    scale: [1, 1.1, 1],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                  }}
+                />
+                <div className="relative p-4 rounded-full bg-opacity-10 backdrop-blur-sm bg-gradient-to-br from-indigo-500/20 to-purple-500/20">
+                  <Terminal
+                    className={`w-10 h-10 transition-colors duration-500 ${
+                      isDark
+                        ? "text-indigo-400 group-hover:text-purple-300"
+                        : "text-indigo-600 group-hover:text-purple-500"
+                    }`}
+                  />
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Social Links */}
+            <motion.div 
+              className="flex space-x-4 mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.5, duration: 0.6 }}
+            >
+              {[
+                {
+                  Icon: GithubIcon,
+                  href: "https://github.com/DixitAbhinav",
+                  color: isDark
+                    ? "bg-gray-900/20 hover:bg-gray-900/40 text-gray-200 hover:text-white"
+                    : "bg-gray-100 hover:bg-gray-200 text-gray-800 hover:text-black",
+                },
+                {
+                  Icon: LinkedinIcon,
+                  href: "https://www.linkedin.com/in/abhinav-dixit-81851b252",
+                  color: isDark
+                    ? "bg-blue-900/20 hover:bg-blue-900/40 text-blue-300 hover:text-blue-200"
+                    : "bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-700",
+                },
+                {
+                  Icon: Mail,
+                  href: "mailto:dixitabhinav2004@gmail.com",
+                  color: isDark
+                    ? "bg-red-900/20 hover:bg-red-900/40 text-red-300 hover:text-red-200"
+                    : "bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700",
+                },
+              ].map(({ Icon, href, color }, i) => (
+                <motion.a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variants={socialLinkVariants}
+                  custom={i}
+                  initial="initial"
+                  animate="animate"
+                  whileHover="hover"
+                  className={`p-3 rounded-xl transition-all duration-300 border ${color} ${
+                    isDark ? "border-gray-800" : "border-gray-200"
+                  } shadow-lg`}
+                >
+                  <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                </motion.a>
+              ))}
+            </motion.div>
+            
+            {/* Call to Action Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.8, duration: 0.6 }}
+            >
+              <ImprovedCallButton onClick={handleScheduleCall} isDark={isDark} />
+            </motion.div>
+          </div>
+          
+          {/* Right Column - Image */}
+          <motion.div 
+            className="order-1 md:order-2 flex justify-center items-center"
+            variants={imageVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <div className="relative max-w-sm">
+              {/* Decorative glow effect */}
+              <div className={`absolute inset-0 rounded-full blur-2xl opacity-30 ${
+                isDark ? "bg-indigo-500" : "bg-indigo-300"
+              }`}></div>
+              
+              {/* Image with border */}
+              <motion.div 
+                className={`relative rounded-2xl overflow-hidden border-4 ${
+                  isDark ? "border-indigo-600/30" : "border-indigo-500/30"
+                } shadow-2xl`}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
+                <img 
+                  src="/person.jpeg" 
+                  alt="Abhinav Dixit" 
+                  className="w-full h-auto object-cover"
+                />
+                
+                {/* Subtle overlay gradient */}
+                <div className={`absolute inset-0 opacity-10 bg-gradient-to-t ${
+                  isDark ? "from-indigo-900" : "from-indigo-200"
+                } to-transparent`}></div>
+              </motion.div>
             </div>
           </motion.div>
-
-          {/* Developer title with typing effect */}
-          <motion.div
-            variants={childVariants}
-            className={`text-base sm:text-xl md:text-2xl font-['Inter'] mb-8 h-8 sm:h-10 flex justify-center items-center
-              ${isDark ? "text-indigo-400" : "text-indigo-600"}`}
-          >
-            <span className="relative">
-              <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                {typedText}
-              </motion.span>
-              <motion.span
-                animate={{ opacity: [0, 1] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-                className="ml-1 inline-block"
-              >
-                |
-              </motion.span>
-            </span>
-          </motion.div>
-
-          {/* Social Links */}
-          <motion.div
-            variants={childVariants}
-            className="flex justify-center space-x-4 sm:space-x-6 mb-8"
-          >
-            {[
-              {
-                Icon: GithubIcon,
-                href: "https://github.com/DixitAbhinav",
-                color: isDark
-                  ? "bg-gray-900/20 hover:bg-gray-900/40 text-gray-200 hover:text-white border-gray-800 hover:border-gray-700 shadow-[0_4px_6px_rgba(0,0,0,0.3)] hover:shadow-[0_6px_8px_rgba(0,0,0,0.4)]"
-                  : "bg-gray-100 hover:bg-gray-200 text-gray-800 hover:text-black border-gray-200 hover:border-gray-300 shadow-[0_4px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_8px_rgba(0,0,0,0.15)]",
-              },
-              {
-                Icon: LinkedinIcon,
-                href: "https://www.linkedin.com/in/abhinav-dixit-81851b252",
-                color: isDark
-                  ? "bg-blue-900/20 hover:bg-blue-900/40 text-blue-300 hover:text-blue-200 border-blue-800 hover:border-blue-700 shadow-[0_4px_6px_rgba(59,130,246,0.3)] hover:shadow-[0_6px_8px_rgba(59,130,246,0.4)]"
-                  : "bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-700 border-blue-100 hover:border-blue-200 shadow-[0_4px_6px_rgba(59,130,246,0.1)] hover:shadow-[0_6px_8px_rgba(59,130,246,0.15)]",
-              },
-              {
-                Icon: Mail,
-                href: "mailto:dixitabhinav2004@gmail.com",
-                color: isDark
-                  ? "bg-red-900/20 hover:bg-red-900/40 text-red-300 hover:text-red-200 border-red-800 hover:border-red-700 shadow-[0_4px_6px_rgba(220,38,38,0.3)] hover:shadow-[0_6px_8px_rgba(220,38,38,0.4)]"
-                  : "bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 border-red-100 hover:border-red-200 shadow-[0_4px_6px_rgba(220,38,38,0.1)] hover:shadow-[0_6px_8px_rgba(220,38,38,0.15)]",
-              },
-            ].map(({ Icon, href, color }, i) => (
-              <motion.a
-                key={href}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                variants={socialLinkVariants}
-                custom={i}
-                whileHover="hover"
-                className={`p-3 sm:p-4 rounded-xl transition-all duration-300 font-['Inter']
-                  border ${color} ${
-                  isDark ? "border-gray-800" : "border-gray-200"
-                }`}
-              >
-                <Icon className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:scale-110" />
-              </motion.a>
-            ))}
-          </motion.div>
-
-          {/* Improved Button for Schedule Call */}
-          <motion.div variants={childVariants} className="flex justify-center">
-            <ImprovedCallButton onClick={handleScheduleCall} isDark={isDark} />
-          </motion.div>
         </div>
-      </motion.div>
-
-      {/* Right Side - Full Height Image */}
-      <motion.div
-        className="relative w-full md:w-1/2 min-h-[50vh] md:min-h-screen"
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-      >
-        {/* Animated gradient overlay */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 via-purple-500/10 to-transparent z-10"
-          animate={{
-            backgroundPosition: ["0% 0%", "100% 100%"],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            repeatType: "mirror",
-          }}
-        />
-
-        {/* Border effect on left side */}
-        <motion.div
-          className={`absolute left-0 top-0 bottom-0 w-1 md:w-2 ${gradientClass}`}
-          initial={{ scaleY: 0 }}
-          animate={{ scaleY: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
-        />
-
-        {/* Profile image container */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Replace with your actual image */}
-          <img
-            src="../../public/person.jpeg"
-            alt="Abhinav Dixit"
-            className="w-48 h-48 object-cover"
-          />
-        </div>
-
-        {/* Optional: Image overlay for better text contrast if needed */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent md:hidden"></div>
-      </motion.div>
+      </div>
     </div>
   );
 };
